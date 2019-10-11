@@ -13,3 +13,6 @@
 
 ## Python: Operazioni su files
 [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/T11-Python-file.pdf)
+
+## Python: Numpy e calcolo scientifico
+[slide](http://aimagelab.ing.unimo.it/files/ifoa/python/PyA9-python_scientific_.pdf)
