@@ -23,4 +23,4 @@
 ## Python: CV
 
 * [esercizi](http://aimagelab.ing.unimo.it/files/ifoa/python/esercizi_cv.zip)
-[//]:* [soluzioni](http://aimagelab.ing.unimo.it/files/ifoa/python/soluzioni_cv.zip)
+[//]: # (* [soluzioni](http://aimagelab.ing.unimo.it/files/ifoa/python/soluzioni_cv.zip) )
