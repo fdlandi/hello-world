@@ -19,3 +19,8 @@
 
 ## Python: Numpy e calcolo scientifico
 * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/PyA9-python_scientific_.pdf)
+
+## Python: CV
+
+* [esercizi](http://aimagelab.ing.unimo.it/files/ifoa/python/esercizi_cv.zip)
+[//]:* [soluzioni](http://aimagelab.ing.unimo.it/files/ifoa/python/soluzioni_cv.zip)
