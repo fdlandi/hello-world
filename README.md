@@ -21,11 +21,11 @@
 * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/PyA9-python_scientific_.pdf)
 
 ## Python: CV
-* [slide-image_processing1](http://aimagelab.ing.unimo.it/files/ifoa/python/2.VCS2019_Image_processing_1.pdf)
+* [slide image_processing1](http://aimagelab.ing.unimo.it/files/ifoa/python/2.VCS2019_Image_processing_1.pdf)
 * [esercizi](http://aimagelab.ing.unimo.it/files/ifoa/python/esercizi_cv.zip)
-* [slide-image_processing2](http://aimagelab.ing.unimo.it/files/ifoa/python/3.VCS2019_image_processing_2_Filtering.pdf)
-* [slide-lab](http://aimagelab.ing.unimo.it/files/ifoa/python/Lab_01.pptx.pdf)
-* [slide-image_processing3](http://aimagelab.ing.unimo.it/files/ifoa/python/4.VCS2019_image_processing_3_edges.pdf)
+* [slide image_processing2](http://aimagelab.ing.unimo.it/files/ifoa/python/3.VCS2019_image_processing_2_Filtering.pdf)
+* [slide lab](http://aimagelab.ing.unimo.it/files/ifoa/python/Lab_01.pptx.pdf)
+* [slide image_processing3](http://aimagelab.ing.unimo.it/files/ifoa/python/4.VCS2019_image_processing_3_edges.pdf)
 <!---
 * [soluzioni](http://aimagelab.ing.unimo.it/files/ifoa/python/soluzioni_cv.zip)
 -->
