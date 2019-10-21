@@ -1,5 +1,12 @@
 # Materiale didattico
 
+## Requisiti:
+ * python >= 3.6 consigliato installazione tramite pacchetto Anaconda (https://www.anaconda.com/distribution/) o Miniconda (https://docs.conda.io/en/latest/miniconda.html)
+ * Una volta installato python si possono installare le librerie usando il comando 'pip install <nome-libreria>' tramite terminale, le librerie fino ad ora utilizzate sono:
+ 'numpy'
+ 'opencv-python'
+ 'matplotlib'
+
 ## Python: Introduzion, linguaggio base
   * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/T3-python_intro.pdf)
   * [esempi](http://aimagelab.ing.unimo.it/files/ifoa/python/T3-esempi.zip)
