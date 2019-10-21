@@ -3,9 +3,9 @@
 ## Requisiti:
  * python >= 3.6 consigliato installazione tramite pacchetto Anaconda (https://www.anaconda.com/distribution/) o Miniconda (https://docs.conda.io/en/latest/miniconda.html)
  * Una volta installato python si possono installare le librerie usando il comando `pip install <nome-libreria>` tramite terminale, le librerie fino ad ora utilizzate sono:  
-   -numpy
-   -opencv-python
-   -matplotlib
+   * numpy
+   * opencv-python
+   * matplotlib
  * Inoltre è consigliato utilizzare PyCharm Community (https://www.jetbrains.com/pycharm/download/#section=linux) come IDE per la programmazione in python
 
 ## Python: Introduzion, linguaggio base
