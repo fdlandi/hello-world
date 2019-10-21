@@ -1,8 +1,9 @@
 # Materiale didattico
 
 ## Requisiti:
+Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, dove non è specificata la versione, si intende l'ultima disponibile, non ci sono requisiti particolari a parte l'interprete.
  * python >= 3.6 consigliato installazione tramite pacchetto Anaconda (https://www.anaconda.com/distribution/) o Miniconda (https://docs.conda.io/en/latest/miniconda.html)
- * Una volta installato python si possono installare le librerie usando il comando `pip install <nome-libreria>` tramite terminale, le librerie fino ad ora utilizzate sono:  
+ * Una volta installato python si possono installare le librerie usando il comando `pip install <nome-libreria>` tramite terminale,le librerie fino ad ora utilizzate sono:  
    * numpy
    * opencv-python
    * matplotlib
