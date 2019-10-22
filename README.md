@@ -39,3 +39,5 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
 * [soluzioni](http://aimagelab.ing.unimo.it/files/ifoa/python/soluzioni_cv.zip)
 -->
 
+## Machine Learning: Introduzione e clustering
+* [materiale](http://aimagelab.ing.unimo.it/files/ifoa/machine_learning/lab1_mtomei.zip)
