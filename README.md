@@ -44,3 +44,6 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
 
 ## Machine Learning: Riduzione dimensioni e Bayes
 * [materiale](http://aimagelab.ing.unimo.it/files/ifoa/machine_learning/02.DimReduction+BayesianClassification-9novembre.zip)
+
+## Machine Learning: LDA + Regression
+* [materiale](http://aimagelab.ing.unimo.it/files/ifoa/machine_learning/03.LDA+LogisticRegr+LinearRegr.zip)
