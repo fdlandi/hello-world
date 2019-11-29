@@ -47,3 +47,6 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
 
 ## Machine Learning: LDA + Regression
 * [materiale](http://aimagelab.ing.unimo.it/files/ifoa/machine_learning/03.LDA+LogisticRegr+LinearRegr.zip)
+
+## Machine Learning: SVM + Ensemble
+* [materiale](http://aimagelab.ing.unimo.it/files/ifoa/machine_learning/04.SVM+Ensemble.zip)
