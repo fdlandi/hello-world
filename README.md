@@ -50,3 +50,6 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
 
 ## Machine Learning: SVM + Ensemble
 * [materiale](http://aimagelab.ing.unimo.it/files/ifoa/machine_learning/04.SVM+Ensemble.zip)
+
+## Machine Learning: RandomForest + Perceptron
+* [materiale](http://aimagelab.ing.unimo.it/files/ifoa/machine_learning/05.RandomForest+Perceptron.zip)
