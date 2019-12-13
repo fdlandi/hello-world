@@ -53,3 +53,16 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
 
 ## Machine Learning: RandomForest + Perceptron
 * [materiale](http://aimagelab.ing.unimo.it/files/ifoa/machine_learning/05.RandomForest+Perceptron.zip)
+
+## Neural Networks
+Slides are taken from the [Stanford CS231n course](http://cs231n.stanford.edu/): Convolutional Neural Networks for Visual Recognition (likely the best course on neural networks so far).
+
+For additional readings, the "Deep Learning" book is publicly available [online](http://www.deeplearningbook.org/) - it is worth considering buying the physical copy if you are interested in the topic.
+
+Many of the practical work will be done using [Google Colab](https://colab.research.google.com), which does not require extra setup and provides free GPUs. All you need is an internet connection and a google account.
+
+### Practicals
+* Coming soon... (notebook)(solutions)
+*
+*
+*
