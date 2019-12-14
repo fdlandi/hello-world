@@ -9,7 +9,7 @@ y = randn(n, d_out)
 
 w = randn(d_in, d_out)
 
-lr = 1e-3  # uguale a scrivere 0.0001 (1 * 10^-4)
+lr = 1e-4  # uguale a scrivere 0.0001 (1 * 10^-4)
 num_iter = 2000
 
 # update di gradient descent
