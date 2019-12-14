@@ -62,7 +62,7 @@ For additional readings, the "Deep Learning" book is publicly available [online]
 Many of the practical work will be done using [Google Colab](https://colab.research.google.com), which does not require extra setup and provides free GPUs. All you need is an internet connection and a google account.
 
 ### Practicals
-* Coming soon... (notebook)(solutions)
+* Backpropagation & Gradient Descent ([solutions](https://github.com/fdlandi/hello-world/blob/master/backpropagation.py))
 *
 *
 *
