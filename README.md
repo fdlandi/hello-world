@@ -63,6 +63,6 @@ Many of the practical work will be done using [Google Colab](https://colab.resea
 
 ### Practicals
 * Backpropagation & Gradient Descent ([solutions](https://github.com/fdlandi/hello-world/blob/master/backpropagation.py))
-*
+* Multi-layer Perceptron with PyTorch ([solutions](https://github.com/fdlandi/hello-world/blob/master/mlp_mnist.py))
 *
 *
