@@ -64,5 +64,7 @@ Many of the practical work will be done using [Google Colab](https://colab.resea
 ### Practicals
 * Backpropagation & Gradient Descent ([solutions](https://github.com/fdlandi/hello-world/blob/master/backpropagation.py))
 * Multi-layer Perceptron with PyTorch ([solutions](https://github.com/fdlandi/hello-world/blob/master/mlp_mnist.py))
-*
-*
+
+### Interesting Papers
+* Learning by back-propagation - 1986 ([paper](https://github.com/fdlandi/hello-world/blob/master/Interesting%20papers/1986%20-%20Hinton%20-%20Learning%20by%20back-propagating%20errors.pdf))
+* LeNet: the first Convolutional Neural Network - 1998 ([paper](https://github.com/fdlandi/hello-world/blob/master/Interesting%20papers/1998%20-%20LeCun%20-%20Gradient-based%20leaning%20applied%20to%20document%20recognition.pdf))
