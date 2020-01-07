@@ -63,7 +63,7 @@ Many of the practical work will be done using [Google Colab](https://colab.resea
 
 ### Practicals
 * Backpropagation & Gradient Descent ([solutions](https://github.com/fdlandi/hello-world/blob/master/backpropagation.py))
-* Multi-layer Perceptron with PyTorch ([solutions](https://github.com/fdlandi/hello-world/blob/master/mlp_mnist.py))
+* Multi-layer Perceptron with PyTorch ([notebook](https://github.com/fdlandi/hello-world/blob/master/mlp_mnist.ipynb))([solutions](https://github.com/fdlandi/hello-world/blob/master/mlp_mnist.py))
 
 ### Interesting Papers
 * Learning by back-propagation - 1986 ([paper](https://github.com/fdlandi/hello-world/blob/master/Interesting%20papers/1986%20-%20Hinton%20-%20Learning%20by%20back-propagating%20errors.pdf))
