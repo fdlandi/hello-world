@@ -11,7 +11,7 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
  * In alternativa è possibile utilizzare anche [Google Colab](https://colab.research.google.com), che non richiede installazioni ma solamente un account google.
  
 
-## Python: Introduzion, linguaggio base
+## Python: Introduzione, linguaggio base
   * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/T3-python_intro.pdf)
   <!--* [esempi](http://aimagelab.ing.unimo.it/files/ifoa/python/T3-esempi.zip)
   * [esercizi](http://aimagelab.ing.unimo.it/files/ifoa/python/T3-esercizi.zip)
