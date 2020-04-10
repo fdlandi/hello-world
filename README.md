@@ -16,7 +16,7 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
   * [esempi](http://aimagelab.ing.unimo.it/files/ifoa/python/T3-esempi.zip)
   * [esercizi](http://aimagelab.ing.unimo.it/files/ifoa/python/T3-esercizi.zip)
   
-<!--## Python: Moduli
+## Python: Moduli
 * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/T7-Python_moduli.pdf)
 * [esempi](http://aimagelab.ing.unimo.it/files/ifoa/python/T7-Python-Moduli.zip)
 
