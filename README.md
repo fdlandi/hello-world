@@ -15,10 +15,12 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
   * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/T3-python_intro.pdf)
   * [esempi](http://aimagelab.ing.unimo.it/files/ifoa/python/T3-esempi.zip)
   * [esercizi](http://aimagelab.ing.unimo.it/files/ifoa/python/T3-esercizi.zip)
+  * [bozza lezione live parte 1](https://github.com/fdlandi/hello-world/blob/master/bozza_esercizi_python_1.ipynb), [bozza lezione live parte 2](https://github.com/fdlandi/hello-world/blob/master/bozza_esercizi_python_2.ipynb)
   
 ## Python: Moduli
 * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/T7-Python_moduli.pdf)
 * [esempi](http://aimagelab.ing.unimo.it/files/ifoa/python/T7-Python-Moduli.zip)
+* [bozza lezione live + esercizi](https://github.com/fdlandi/hello-world/blob/master/bozza_esercizi_python_3.ipynb)
 
 <!--## Python: Oggetti e classi
 * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/T8-Python-oggetti.pdf)
