@@ -22,11 +22,11 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
 * [esempi](http://aimagelab.ing.unimo.it/files/ifoa/python/T7-Python-Moduli.zip)
 * [bozza lezione live + esercizi](https://github.com/fdlandi/hello-world/blob/master/bozza_esercizi_python_3.ipynb)
 
-<!--## Python: Oggetti e classi
+## Python: Oggetti e classi
 * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/T8-Python-oggetti.pdf)
 * [esempi](http://aimagelab.ing.unimo.it/files/ifoa/python/T8-Python-oggetti.zip)
 
-<!--## Python: Operazioni su files
+## Python: Operazioni su files
 * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/T11-Python-file.pdf)
 * [esempi](http://aimagelab.ing.unimo.it/files/ifoa/python/T11-Python-file.zip)
 
