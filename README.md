@@ -29,7 +29,7 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
 ## Python: Operazioni su files
 * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/T11-Python-file.pdf)
 * [esempi](http://aimagelab.ing.unimo.it/files/ifoa/python/T11-Python-file.zip)
-
+* [esercizio classi e file](https://github.com/fdlandi/hello-world/blob/master/es_classi_file)
 <!--## Python: Numpy e calcolo scientifico
 * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/PyA9-python_scientific_.pdf)
 
