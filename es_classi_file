@@ -1,0 +1,9 @@
+# classe Writer che accetti come parametro in ingresso un nome di un file con path (assoluto o relativo)
+# quando viene inizializzata la classe creare tale file
+# crei un funzione che aggiunga contenuto al file, ogni volta inserisca una nuova riga
+
+# Creare una classe Reader, come Writer accetti come parametro in ingresso  un file path
+# quando viene inizializzata leggere il contenuto del file per righe
+# creare una funzione che dato un numero intero in ingresso ritorni il contenuto di quella riga, None se quella riga a tale indice non esiste
+
+# usando le due classi create fare uno script che copi da Reader Writer solo le righe dispari
