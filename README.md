@@ -30,10 +30,10 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
 * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/T11-Python-file.pdf)
 * [esempi](http://aimagelab.ing.unimo.it/files/ifoa/python/T11-Python-file.zip)
 * [esercizio classi e file](https://github.com/fdlandi/hello-world/blob/master/bozza_esercizi_classi_file.ipynb)
-<!--## Python: Numpy e calcolo scientifico
+## Python: Numpy e calcolo scientifico
 * [slide](http://aimagelab.ing.unimo.it/files/ifoa/python/PyA9-python_scientific_.pdf)
 
-<!--## Python: CV
+## Python: CV
 * [slide image_processing1](http://aimagelab.ing.unimo.it/files/ifoa/python/2.VCS2019_Image_processing_1.pdf)
 * [esercizi](http://aimagelab.ing.unimo.it/files/ifoa/python/esercizi_cv.zip)
 * [slide image_processing2](http://aimagelab.ing.unimo.it/files/ifoa/python/3.VCS2019_image_processing_2_Filtering.pdf)
