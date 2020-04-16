@@ -36,12 +36,11 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
 ## Python: CV
 * [slide image_processing1](http://aimagelab.ing.unimo.it/files/ifoa/python/2.VCS2019_Image_processing_1.pdf)
 * [esercizi](http://aimagelab.ing.unimo.it/files/ifoa/python/esercizi_cv.zip)
-* [slide image_processing2](http://aimagelab.ing.unimo.it/files/ifoa/python/3.VCS2019_image_processing_2_Filtering.pdf)
-* [slide lab](http://aimagelab.ing.unimo.it/files/ifoa/python/Lab_01.pptx.pdf)
-* [slide image_processing3](http://aimagelab.ing.unimo.it/files/ifoa/python/4.VCS2019_image_processing_3_edges.pdf)
-<!---
-* [soluzioni](http://aimagelab.ing.unimo.it/files/ifoa/python/soluzioni_cv.zip)
--->
+* [bozza esercizi cv](https://github.com/fdlandi/hello-world/blob/master/bozza_esercizi_cv.ipynb)
+<!--* [slide image_processing2](http://aimagelab.ing.unimo.it/files/ifoa/python/3.VCS2019_image_processing_2_Filtering.pdf)
+<!--* [slide lab](http://aimagelab.ing.unimo.it/files/ifoa/python/Lab_01.pptx.pdf)
+<!--* [slide image_processing3](http://aimagelab.ing.unimo.it/files/ifoa/python/4.VCS2019_image_processing_3_edges.pdf)
+<!--* [soluzioni](http://aimagelab.ing.unimo.it/files/ifoa/python/soluzioni_cv.zip)
 
 <!--## Machine Learning: Introduzione e clustering
 * [materiale](http://aimagelab.ing.unimo.it/files/ifoa/machine_learning/lab1_mtomei.zip)
