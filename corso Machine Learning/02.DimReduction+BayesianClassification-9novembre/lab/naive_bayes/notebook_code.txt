@@ -1,0 +1,382 @@
+"""
+Helper function to load data.
+"""
+
+import os
+import gzip
+import numpy as np
+from google_drive_downloader import GoogleDriveDownloader
+
+
+GoogleDriveDownloader.download_file_from_google_drive(file_id='1iytA1n2z4go3uVCwE__vIKouTKyIDjEq',
+                                                       dest_path='./mnist/mnist_mnist.zip',
+                                                       unzip=True)
+
+
+def load_mnist_digits():
+    """
+    Loads mnist (original, with digits).
+    
+    Returns
+    -------
+    tuple:
+        x_train with shape(n_train_samples, h, w)
+        y_train with shape(n_train_samples,)
+        x_test with shape(n_test_samples, h, w)
+        y_test with shape(n_test_samples,)
+    """
+
+    x_train = np.load('mnist/x_train.npy')
+    y_train = np.load('mnist/y_train.npy')
+
+    x_test = np.load('mnist/x_test.npy')
+    y_test = np.load('mnist/y_test.npy')
+
+    label_dict = {i: str(i) for i in range(0, 10)}
+
+    return x_train, y_train, x_test, y_test, label_dict
+
+
+def load_mnist_fashion():
+    """
+    Loads fashion MNIST dataset.
+
+    Returns
+    -------
+    tuple:
+        x_train with shape(n_train_samples, h, w)
+        y_train with shape(n_train_samples,)
+        x_test with shape(n_test_samples, h, w)
+        y_test with shape(n_test_samples,)
+    """
+
+    path = 'mnist'
+
+    x_train_path = os.path.join(path, 'train-images-idx3-ubyte.gz')
+    y_train_path = os.path.join(path, 'train-labels-idx1-ubyte.gz')
+    x_test_path = os.path.join(path, 'test-images-idx3-ubyte.gz')
+    y_test_path = os.path.join(path, 'test-labels-idx1-ubyte.gz')
+
+    with gzip.open(y_train_path, 'rb') as lbpath:
+        y_train = np.frombuffer(lbpath.read(), dtype=np.uint8, offset=8)
+
+    with gzip.open(x_train_path, 'rb') as imgpath:
+        x_train = np.frombuffer(imgpath.read(), dtype=np.uint8, offset=16).reshape(len(y_train), 28, 28)
+
+    with gzip.open(y_test_path, 'rb') as lbpath:
+        y_test = np.frombuffer(lbpath.read(), dtype=np.uint8, offset=8)
+
+    with gzip.open(x_test_path, 'rb') as imgpath:
+        x_test = np.frombuffer(imgpath.read(), dtype=np.uint8, offset=16).reshape(len(y_test), 28, 28)
+
+    label_dict = {0: 'T-shirt/top',
+                  1: 'Trouser',
+                  2: 'Pullover',
+                  3: 'Dress',
+                  4: 'Coat',
+                  5: 'Sandal',
+                  6: 'Shirt',
+                  7: 'Sneaker',
+                  8: 'Bag',
+                  9: 'Ankle boot'
+                  }
+
+    return x_train, y_train, x_test, y_test, label_dict
+
+
+def load_mnist(which_type, threshold=0.5):
+    """
+    Loads MNIST data (either digits or fashion) and returns it binarized.
+    
+    Parameters
+    ----------
+    which_type: str
+        either [`digits` or `fashion`].
+    threshold: float
+        a threshold in [0, 1] to binarize w.r.t.
+
+    Returns
+    -------
+    tuple:
+        x_train with shape(n_train_samples, h, w)
+        y_train with shape(n_train_samples,)
+        x_test with shape(n_test_samples, h, w)
+        y_test with shape(n_test_samples,)
+    """
+
+    assert which_type in ['digits', 'fashion'], 'Not valid MNIST type: {}'.format(which_type)
+
+    if which_type == 'digits':
+        x_train, y_train, x_test, y_test, label_dict = load_mnist_digits()
+    else:
+        x_train, y_train, x_test, y_test, label_dict = load_mnist_fashion()
+
+    x_train = np.float32(x_train) / 255.
+    x_train[x_train >= threshold] = 1
+    x_train[x_train < threshold] = 0
+
+    x_test = np.float32(x_test) / 255.
+    x_test[x_test >= threshold] = 1
+    x_test[x_test < threshold] = 0
+
+    return x_train, y_train, x_test, y_test, label_dict
+
+"""
+Class that models a Naive Bayes Classifier
+"""
+
+import numpy as np
+
+
+class NaiveBayesClassifier:
+    """
+    Naive Bayes Classifier.
+    Training:
+    For each class, a naive likelyhood model is estimated for P(X/Y),
+    and the prior probability P(Y) is computed.
+    Inference:
+    performed according with the Bayes rule:
+    P = argmax_Y (P(X/Y) * P(Y))
+    or
+    P = argmax_Y (log(P(X/Y)) + log(P(Y)))
+    """
+
+    def __init__(self):
+        """
+        Class constructor
+        """
+
+        self._classes = None
+        self._n_classes = 0
+
+        self._eps = np.finfo(np.float32).eps
+
+        # array of classes prior probabilities
+        self._class_priors = []
+
+        # array of probabilities of a pixel being active (for each class)
+        self._pixel_probs_given_class = []
+
+    def fit(self, X, Y):
+        """
+        Computes, for each class, a naive likelyhood model (self._pixel_probs_given_class),
+        and a prior probability (self.class_priors).
+        Both quantities are estimated from examples X and Y.
+
+        Parameters
+        ----------
+        X: np.array
+            input MNIST digits. Has shape (n_train_samples, h, w)
+        Y: np.array
+            labels for MNIST digits. Has shape (n_train_samples,)
+        """
+
+        n_train_samples, h, w = X.shape
+
+        self._classes = np.unique(Y)
+        self._n_classes = len(self._classes)
+
+        # compute prior and pixel probabilities for each class
+        for c_idx, c in enumerate(self._classes):
+
+            # examples of this class
+            x_c = X[Y == c]
+
+            # prior probability
+            prior_c = np.sum(np.uint8(Y == c)) / n_train_samples
+            self._class_priors.append(prior_c)
+
+            probs_c = self._estimate_pixel_probabilities(x_c)
+            self._pixel_probs_given_class.append(probs_c)
+
+    def predict(self, X):
+        """
+        Performs inference on test data.
+        Inference is performed according with the Bayes rule:
+        P = argmax_Y (log(P(X/Y)) + log(P(Y)) - log(P(X)))
+
+        Parameters
+        ----------
+        X: np.array
+            MNIST test images. Has shape (n_test_samples, h, w).
+
+        Returns
+        -------
+        prediction: np.array
+            model predictions over X. Has shape (n_test_samples,)
+        """
+
+        n_test_samples, h, w = X.shape
+
+        # initialize log probabilities of class
+        class_log_probs = np.zeros(shape=(n_test_samples, self._n_classes))
+
+        for c in range(0, self._n_classes):
+
+            # extract class models
+            pix_probs_c = self._pixel_probs_given_class[c]
+            prior_c = self._class_priors[c]
+
+            # prior probability of this class
+            log_prior_c = np.log(prior_c)
+
+            # likelyhood of examples given class
+            log_lk_x = self.get_log_likelyhood_under_model(X, pix_probs_c)
+
+            # bayes rule for logarithm
+            log_prob_c = log_lk_x + log_prior_c
+
+            # set class probability for each test example
+            class_log_probs[:, c] = log_prob_c
+
+        # class_log_probs -= np.log(np.sum(np.exp(class_log_probs), axis=1, keepdims=True))
+
+        predictions = np.argmax(class_log_probs, axis=1)
+
+        return predictions
+
+    @staticmethod
+    def _estimate_pixel_probabilities(images):
+        """
+        Estimates pixel probabilities from data.
+
+        Parameters
+        ----------
+        images: np.array
+            images to estimate pixel probabilities from. Has shape (n_images, h, w)
+
+        Returns
+        -------
+        pix_probs: np.array
+            probabilities for each pixel of being 1, estimated from images.
+            Has shape (h, w)
+        """
+
+        pix_probs = np.mean(images, axis=0)
+        return pix_probs
+
+    def get_log_likelyhood_under_model(self, images, model):
+        """
+        Returns the likelyhood of many images under a certain model.
+        Naive:
+        the likelyhood of the image is the product of the likelyhood of each pixel.
+        or
+        the log-likelyhood of the image is the sum of the log-likelyhood of each pixel.
+
+        Parameters
+        ----------
+        images: np.array
+            input images. Having shape (n_images, h, w).
+        model: np.array
+            a model of pixel probabilities, having shape (h, w)
+
+        Returns
+        -------
+        lkl: np.array
+            the likelyhood of each pixel under the model, having shape (h, w).
+        """
+        n_samples = images.shape[0]
+
+        model = np.tile(np.expand_dims(model, axis=0), reps=(n_samples, 1, 1))
+
+        idx_1 = (images == 1)
+        idx_0 = (images == 0)
+
+        lkl = np.zeros_like(images, dtype=np.float32)
+        lkl[idx_1] = model[idx_1]
+        lkl[idx_0] = 1 - model[idx_0]
+
+        log_lkl = np.apply_over_axes(np.sum, np.log(lkl + self._eps), axes=[1, 2])
+        log_lkl = np.squeeze(log_lkl)
+
+        return log_lkl
+
+"""
+Main script
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+import itertools
+
+#plt.ion()
+
+
+def plot_confusion_matrix(targets, predictions, classes,
+                          normalize=True,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    n_classes, = np.unique(targets).shape
+
+    cm = np.zeros(shape=(n_classes, n_classes), dtype=np.float32)
+    for t, p in zip(targets, predictions):
+        cm[int(t), int(p)] += 1
+
+    if normalize:
+        cm /= cm.sum(axis=1)
+
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+
+
+def main():
+    """ Main function """
+
+    # load data
+    x_train, y_train, x_test, y_test, label_dict = load_mnist(which_type='digits', threshold=0.5)
+
+    # get the model
+    nbc = NaiveBayesClassifier()
+
+    # train
+    nbc.fit(x_train, y_train)
+
+    # test
+    predictions = nbc.predict(x_test)
+
+    # evaluate performances
+    accuracy = np.sum(np.uint8(predictions == y_test)) / len(y_test)
+    print('Accuracy: {}'.format(accuracy))
+
+    # show confusion matrix
+    plot_confusion_matrix(targets=y_test,
+                          predictions=predictions,
+                          classes=[label_dict[l] for l in label_dict])
+
+    # plot predictions
+    plt.figure()
+    #while True:
+    idx = 50#np.random.randint(0, x_test.shape[0])
+
+    x = x_test[idx]
+    p = predictions[idx]
+    y = y_test[idx]
+
+    plt.imshow(x, cmap='gray')
+    plt.title('Target: {}, Prediction: {}'.format(label_dict[int(y)], label_dict[int(p)]))
+    #plt.waitforbuttonpress()
+    plt.show()
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,435 @@
+import numpy as np
+from sklearn.datasets import make_moons
+from google_drive_downloader import GoogleDriveDownloader
+
+
+# GoogleDriveDownloader.download_file_from_google_drive(file_id='1IrEXRIVUPANdS6syggZyR7bABa7pCKjQ',
+#                                                       dest_path='./data/boosting.zip',
+#                                                       unzip=True)
+
+
+def gaussians_dataset(n_gaussian, n_points, mus, stds):
+    """
+    Provides a dataset made by several gaussians.
+
+    Parameters
+    ----------
+    n_gaussian : int
+        The number of desired gaussian components.
+    n_points : list
+        A list of cardinality of points (one for each gaussian).
+    mus : list
+        A list of means (one for each gaussian, e.g. [[1, 1], [3, 1]).
+    stds : list
+        A list of stds (one for each gaussian, e.g. [[1, 1], [2, 2]).
+
+    Returns
+    -------
+    tuple
+        a tuple like:
+            X_train ndarray shape: (n_samples, dims).
+            Y_train ndarray shape: (n_samples,).
+            X_test ndarray shape: (n_samples, dims).
+            Y_test ndarray shape: (n_samples,).
+    """
+
+    assert n_gaussian == len(mus) == len(stds) == len(n_points)
+
+    X = []
+    Y = []
+    for i in range(0, n_gaussian):
+
+        mu = mus[i]
+        std = stds[i]
+        n_pt = n_points[i]
+
+        cov = np.diag(std)
+
+        X.append(np.random.multivariate_normal(mu, cov, size=2*n_pt))
+        Y.append(np.ones(shape=2*n_pt) * i)
+
+    X = np.concatenate(X, axis=0)
+    Y = np.concatenate(Y, axis=0)
+
+    tot = np.concatenate((X, np.reshape(Y, newshape=(-1, 1))), axis=-1)
+
+    np.random.seed(30101990)
+    np.random.shuffle(tot)
+    X = tot[:, :-1]
+    Y = tot[:, -1]
+
+    n_train_samples = X.shape[0]//2
+
+    X_train = X[:n_train_samples]
+    Y_train = Y[:n_train_samples]
+
+    X_test = X[n_train_samples:]
+    Y_test = Y[n_train_samples:]
+
+    Y_train[Y_train == 0] = -1
+    Y_test[Y_test == 0] = -1
+
+    return X_train, Y_train, X_test, Y_test
+
+
+def two_moon_dataset(n_samples=100, shuffle=True, noise=None, random_state=None):
+    """
+    Make two interleaving half circles
+
+    A simple toy dataset to visualize clustering and classification
+    algorithms.
+
+    Parameters
+    ----------
+    n_samples : int, optional (default=100)
+        The total number of points generated.
+
+    shuffle : bool, optional (default=True)
+        Whether to shuffle the samples.
+
+    noise : double or None (default=None)
+        Standard deviation of Gaussian noise added to the data.
+
+    Read more in the :ref:`User Guide <sample_generators>`.
+
+    Returns
+    -------
+    tuple
+        a tuple like:
+            X_train ndarray shape: (n_samples, dims).
+            Y_train ndarray shape: (n_samples,).
+            X_test ndarray shape: (n_samples, dims).
+            Y_test ndarray shape: (n_samples,).
+    """
+    X_train, Y_train = make_moons(n_samples, shuffle, noise, random_state)
+    X_test, Y_test = make_moons(n_samples, shuffle, noise, random_state)
+
+    Y_train[Y_train == 0] = -1
+    Y_test[Y_test == 0] = -1
+
+    return X_train, Y_train, X_test, Y_test
+
+
+def h_shaped_dataset():
+    """
+    Yet another dataset to experiment with boosting.
+    It returns a complex non-linear binary dataset.
+
+    Returns
+    -------
+    tuple
+        a tuple like:
+            X_train ndarray shape: (n_samples, dims).
+            Y_train ndarray shape: (n_samples,).
+            X_test ndarray shape: (n_samples, dims).
+            Y_test ndarray shape: (n_samples,).
+    """
+
+    data = np.load('data/data.npy')
+    labels = np.squeeze(np.load('data/labels.npy'))
+
+    # shuffle
+    n, d  = data.shape
+    idx = np.arange(0, n)
+    np.random.shuffle(idx)
+
+    X_train = data[idx[:n//2]]
+    Y_train = labels[idx[:n // 2]]
+
+    X_test = data[idx[n//2:]]
+    Y_test = labels[idx[n//2:]]
+
+    return X_train, Y_train, X_test, Y_test
+
+import numpy as np
+import matplotlib.pyplot as plt
+plt.ion()
+
+cmap = 'jet'
+
+
+def plot_2d_dataset(X, Y, title=''):
+    """
+    Plots a two-dimensional dataset.
+
+    Parameters
+    ----------
+    X: ndarray
+        data points. (shape:(n_samples, dim))
+    Y: ndarray
+        groundtruth labels. (shape:(n_samples,))
+    title: str
+        an optional title for the plot.
+    """
+
+    # new figure
+    plt.figure()
+
+    # set lims
+    x_min = np.min(X[:, 0])
+    x_max = np.max(X[:, 0])
+    y_min = np.min(X[:, 1])
+    y_max = np.max(X[:, 1])
+    plt.xlim(x_min, x_max)
+    plt.ylim(y_min, y_max)
+
+    # remove ticks
+    plt.xticks(())
+    plt.yticks(())
+
+    # plot points
+    plt.scatter(X[:, 0], X[:, 1], c=Y, zorder=10, s=40, cmap=cmap, edgecolors='k')
+    plt.title(title)
+    #plt.waitforbuttonpress()
+    plt.show()
+
+
+def plot_boundary(X, Y, model, title=''):
+    """
+    Represents the boundaries of a generic learning model over data.
+
+    Parameters
+    ----------
+    X: ndarray
+        data points. (shape:(n_samples, dim))
+    Y: ndarray
+        groundtruth labels. (shape:(n_samples,))
+    model: SVC
+        A sklearn.SVC fit model.
+    title: str
+        an optional title for the plot.
+    """
+
+    # initialize subplots
+    fig, ax = plt.subplots(1, 2)
+    ax[0].scatter(X[:, 0], X[:, 1], c=Y, s=40, zorder=10, cmap=cmap, edgecolors='k')
+
+    # evaluate lims
+    x_min = np.min(X[:, 0])
+    x_max = np.max(X[:, 0])
+    y_min = np.min(X[:, 1])
+    y_max = np.max(X[:, 1])
+
+    # predict all over a grid
+    XX, YY = np.mgrid[x_min:x_max:500j, y_min:y_max:500j]
+    Z = model.predict(np.c_[XX.ravel(), YY.ravel()])
+
+    # Put the result into a color plot
+    Z = Z.reshape(XX.shape)
+    ax[1].pcolormesh(XX, YY, Z, cmap=plt.cm.Paired)
+    ax[1].scatter(X[:, 0], X[:, 1], c=Y, s=40, zorder=10, cmap=cmap, edgecolors='k')
+
+    # set stuff for subplots
+    for s in [0, 1]:
+        ax[s].set_xlim([x_min, x_max])
+        ax[s].set_ylim([y_min, y_max])
+        ax[s].set_xticks([])
+        ax[s].set_yticks([])
+
+    ax[0].set_title('Data')
+    ax[1].set_title('Boundary')
+
+    #plt.waitforbuttonpress()
+    plt.show()
+    
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import svm
+
+plt.ion()
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+plt.ion()
+
+
+class AdaBoostClassifier:
+    """
+    Function that models a Adaboost classifier
+    """
+
+    def __init__(self, n_learners):
+        """
+        Model constructor
+
+        Parameters
+        ----------
+        n_learners: int
+            number of weak classifiers.
+        """
+
+        # initialize a few stuff
+        self.n_learners = n_learners
+        self.alphas = np.zeros(shape=n_learners)
+        self.dims = np.zeros(shape=n_learners, dtype=np.int32)
+        self.splits = np.zeros(shape=n_learners)
+        self.label_above_split = np.zeros(shape=n_learners, dtype=np.int32)
+
+        self.possible_labels = None
+
+    def fit(self, X, Y, verbose=False):
+        """
+        Trains the model.
+
+        Parameters
+        ----------
+        X: ndarray
+            features having shape (n_samples, dim).
+        Y: ndarray
+            class labels having shape (n_samples,).
+        verbose: bool
+            whether or not to visualize the learning process.
+            Default is False
+        """
+
+        # some inits
+        n, d = X.shape
+        if d != 2:
+            verbose = False  # only plot learning if 2 dimensional
+
+        self.possible_labels = np.unique(Y)
+
+        # only binary problems please
+        assert self.possible_labels.size == 2, 'Error: data is not binary'
+
+        # initialize the sample weights as equally probable
+        sample_weights = np.ones(shape=n) / n
+
+        # start training
+        for l in range(0, self.n_learners):
+
+            # choose the indexes of 'difficult' samples (np.random.choice)
+            cur_idx = np.random.choice(a=range(0, n), size=n, replace=True, p=sample_weights)  #scegliamo n indici random da 0 a n, con ripetizioni, usando sample_weights come pesi
+
+            # extract 'difficult' samples
+            cur_X = X[cur_idx]  #estraiamo gli elementi dal dataset con indici calcolati prima
+            cur_Y = Y[cur_idx]  #prendiamo le loro label
+
+            # search for a weak classifier
+            error = 1
+            n_trials = 0
+            while error > 0.5:
+
+                # select random feature (np.random.choice)
+                cur_dim = np.random.choice(a=range(0, d))  #ogni decision stump considera una feature a caso e assegna una classe a seconda che il valore della feature è sopra o sotto una certa soglia
+
+                # select random split (np.random.uniform) --> scegliamo una soglia a caso tra il minimo e il massimo valore che assume la feature cur_dm
+                M, m = np.max(cur_X[:, cur_dim]), np.min(cur_X[:, cur_dim])
+                cur_split = np.random.uniform(low=m, high=M)  # SOGLIA=valore random tra min e max
+
+                # select random verse (np.random.choice)
+                label_above_split = np.random.choice(a=self.possible_labels)  #stabilisco quale classe assegnare agli elementi che hanno valore della feature cur_dim sopra soglia
+                label_below_split = -label_above_split  # e quale label assegnare agli elementi con valore sotto soglia
+
+                # compute assignment
+                cur_assignment = np.zeros(shape=n)
+                cur_assignment[cur_X[:, cur_dim] >= cur_split] = label_above_split  #assegno le label sopra soglia agli elementi con feature cur_dim sopra soglia
+                cur_assignment[cur_X[:, cur_dim] < cur_split] = label_below_split  #assegno le label sotto soglia agli elementi con feature cur_dim sotto soglia
+
+                # compute error
+                error = np.sum(sample_weights[cur_idx[cur_Y != cur_assignment]])  #sommo i pesi degli elementi classificati male
+
+                n_trials += 1
+                if n_trials > 100:  # se dopo 100 volte non ho raggiunto errore minore di 0.5, inizializzo da capo i pesi degli elementi al valore originale
+                    # initialize the sample weights again
+                    sample_weights = np.ones(shape=n) / n
+
+            # save weak learner parameter
+            alpha = np.log((1 - error) / error) / 2
+            self.alphas[l] = alpha
+            self.dims[l] = cur_dim
+            self.splits[l] = cur_split
+            self.label_above_split[l] = label_above_split
+
+            # update sample weights
+            sample_weights[cur_idx[cur_Y != cur_assignment]] *= np.exp(alpha)  #aggiorniamo i pesi degli elementi classificati male con e(alpha)
+            sample_weights[cur_idx[cur_Y == cur_assignment]] *= np.exp(-alpha)  #aggiorniamo i pesi degli elementi classificati bene con e(-alpha)
+            sample_weights /= np.sum(sample_weights)  #normalizziamo i pesi rispetto alla loro somma (devono sommare a 1)
+
+            if verbose:
+                # plot
+                plt.clf()
+                plt.scatter(cur_X[:, 0], cur_X[:, 1], c=cur_assignment, s=sample_weights[cur_idx] * 50000,
+                            cmap=cmap, edgecolors='k')
+                M1, m1 = np.max(X[:, 1]), np.min(X[:, 1])
+                M0, m0 = np.max(X[:, 0]), np.min(X[:, 0])
+                if cur_dim == 0:
+                    plt.plot([cur_split, cur_split], [m1, M1], 'k-', lw=5)
+                else:
+                    plt.plot([m0, M0], [cur_split, cur_split], 'k-', lw=5)
+                plt.xlim([m0, M0])
+                plt.ylim([m1, M1])
+                plt.xticks([])
+                plt.yticks([])
+                plt.title('Iteration: {:04d}'.format(l))
+                plt.waitforbuttonpress(timeout=0.1)
+
+    def predict(self, X):
+        """
+        Function to perform predictions over a set of samples.
+
+        Parameters
+        ----------
+        X: ndarray
+            examples to predict. shape: (n_examples, d).
+
+        Returns
+        -------
+        ndarray
+            labels for each examples. shape: (n_examples,).
+
+        """
+        n, d = X.shape
+
+        pred_all_learners = np.zeros(shape=(n, self.n_learners))
+
+        for l, cur_dim, cur_split, label_above_split in zip(range(0, self.n_learners), self.dims, self.splits, self.label_above_split):
+
+            label_below_split = -label_above_split  #abbiamo salvato la label assegnata agli elementi sopra soglia in linea 109: ricaviamo la label assegnata agli elementi sotto soglia
+
+            # compute assignment
+            cur_assignment = np.zeros(shape=n)
+            cur_assignment[X[:, cur_dim] >= cur_split] = label_above_split  #assegniamo label sopra soglia agli elementi con cur_dim (salvata in linea 107) sopra soglia
+            cur_assignment[X[:, cur_dim] < cur_split] = label_below_split  #assegniamo label sotto soglia agli elementi con cur_dim (salvata in linea 107) sotto soglia
+
+            pred_all_learners[:, l] = cur_assignment
+
+        # weight for learners efficiency
+        pred_all_learners *= self.alphas  #moltiplichiamo per le affidabilità
+
+        # compute predictions
+        pred = np.sign(np.sum(pred_all_learners, axis=1))  #prendiamo il segno della somma pesata (se + vince casse 1, se - vince classe -1)
+
+        return pred
+
+
+def main_adaboost():
+    """
+    Main function for testing Adaboost.
+    """
+
+    #X_train, Y_train, X_test, Y_test = h_shaped_dataset()
+    #X_train, Y_train, X_test, Y_test = gaussians_dataset(2, [100, 150], [[1, 3], [-4, 8]], [[2, 3], [4, 1]])
+    X_train, Y_train, X_test, Y_test = two_moon_dataset(n_samples=300, noise=0.2)
+
+    # visualize dataset
+    plot_2d_dataset(X_train, Y_train, 'Training')
+
+    # train model and predict
+    model = AdaBoostClassifier(n_learners=100)
+    model.fit(X_train, Y_train, verbose=True)
+    P = model.predict(X_test)
+
+    # visualize the boundary!
+    plot_boundary(X_train, Y_train, model)
+
+    # evaluate and print error
+    error = float(np.sum(P != Y_test)) / Y_test.size
+    print('Classification error: {}'.format(error))
+
+
+# entry point
+if __name__ == '__main__':
+    main_adaboost()
