@@ -365,8 +365,12 @@ def main():
 
     # plot predictions
     plt.figure()
+    
     #while True:
-    idx = 50#np.random.randint(0, x_test.shape[0])
+    #idx = np.random.randint(0, x_test.shape[0])
+    
+    #try idx=1000 for a misclassified example
+    idx = 50
 
     x = x_test[idx]
     p = predictions[idx]
