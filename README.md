@@ -40,12 +40,12 @@ Di seguito vengono elencati programmi e librerie utitlizzati durante il corso, d
 <!--* [slide image_processing2](http://aimagelab.ing.unimo.it/files/ifoa/python/3.VCS2019_image_processing_2_Filtering.pdf)
 <!--* [slide lab](http://aimagelab.ing.unimo.it/files/ifoa/python/Lab_01.pptx.pdf)
 <!--* [slide image_processing3](http://aimagelab.ing.unimo.it/files/ifoa/python/4.VCS2019_image_processing_3_edges.pdf)
-<!--* [soluzioni](http://aimagelab.ing.unimo.it/files/ifoa/python/soluzioni_cv.zip)
+<!--* [soluzioni](http://aimagelab.ing.unimo.it/files/ifoa/python/soluzioni_cv.zip)--->
 
 ## Machine Learning: Introduzione e clustering
 * [materiale](http://aimagelab.ing.unimo.it/files/ifoa/machine_learning/lab1_mtomei.zip)
 
-<!--## Machine Learning: Riduzione dimensioni e Bayes
+## Machine Learning: Riduzione dimensioni e Bayes
 * [materiale](http://aimagelab.ing.unimo.it/files/ifoa/machine_learning/02.DimReduction+BayesianClassification-9novembre.zip)
 
 <!--## Machine Learning: LDA + Regression
