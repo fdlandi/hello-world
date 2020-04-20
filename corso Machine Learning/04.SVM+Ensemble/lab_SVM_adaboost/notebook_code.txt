@@ -364,7 +364,7 @@ class AdaBoostClassifier:
                 plt.xticks([])
                 plt.yticks([])
                 plt.title('Iteration: {:04d}'.format(l))
-                plt.waitforbuttonpress(timeout=0.1)
+                plt.show()
 
     def predict(self, X):
         """
