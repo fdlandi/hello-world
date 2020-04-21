@@ -338,10 +338,10 @@ class AdaBoostClassifier:
 
             # save weak learner parameter
             alpha = np.log((1 - error) / error) / 2
-            self.alphas[l] = alpha
-            self.dims[l] = cur_dim
-            self.splits[l] = cur_split
-            self.label_above_split[l] = label_above_split
+            self.alphas[l] = alpha #affidabilità del decision stump
+            self.dims[l] = cur_dim #feature selezionata dal decision stump
+            self.splits[l] = cur_split #valore della soglia scelto
+            self.label_above_split[l] = label_above_split #classe assegnata agli elementi con feature scelta maggiore della soglia scelta
 
             # update sample weights
             sample_weights[cur_idx[cur_Y != cur_assignment]] *= np.exp(alpha)  #aggiorniamo i pesi degli elementi classificati male con e(alpha)
