@@ -1,0 +1,62 @@
+import torch
+import torchvision
+
+class my_model(torch.nn.Module):
+
+  def __init__(self):
+    super(my_model, self).__init__()
+    self.fc1=torch.nn.Linear(in_features=784, out_features=256)
+    #self.fc2=torch.nn.Linear(in_features=256, out_features=10)
+
+  def forward(self, input):
+    return self.fc1()
+    #h1 = torch.nn.functional.relu(self.fc1(input))
+    #return self.fc2(h1)
+
+batch_size = 64
+train_loader = torch.utils.data.DataLoader(
+  torchvision.datasets.MNIST('/files/', train=True, download=True,
+                             transform=torchvision.transforms.Compose([
+                               torchvision.transforms.ToTensor(),
+                               torchvision.transforms.Normalize(
+                                 (0.1307,), (0.3081,))
+                             ])),
+  batch_size=batch_size, shuffle=True)
+
+test_loader = torch.utils.data.DataLoader(
+  torchvision.datasets.MNIST('/files/', train=False, download=True,
+                             transform=torchvision.transforms.Compose([
+                               torchvision.transforms.ToTensor(),
+                               torchvision.transforms.Normalize(
+                                 (0.1307,), (0.3081,))
+                             ])),
+  batch_size=batch_size, shuffle=True)
+
+model = my_model()
+optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+xe_loss = torch.nn.CrossEntropyLoss()
+
+#TRAINING
+for e in range(2): #EPOCHS
+  model.train()
+  for batch_idx, (data, target) in enumerate(train_loader):
+    data = data.view(data.shape[0], -1)
+    pred = model(data)
+    loss = xe_loss(pred, target)
+    print("epoch: "+str(e)+", batch index: "+str(batch_idx)+", loss: "+str(loss.item()))
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+  n_correct = 0
+  n_tot = 0
+  model.eval()
+  for batch_idx, (data, target) in enumerate(test_loader):
+    data = data.view(data.shape[0], -1)
+    pred = model(data)
+    pred = torch.argmax(pred, dim=1)
+    n_correct += torch.sum((pred==target).int())
+    n_tot += len(pred)
+  print("accuracy at epoch "+str(e)+": "+str(float(n_correct)/float(n_tot)))
+
+
